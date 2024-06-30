@@ -1,0 +1,22 @@
+---
+pve_hosts:
+  k8s_master_01: 
+    ip: 192.168.2.210
+
+  k8s_master_02: 
+    ip: 192.168.2.211
+
+  k8s_master_03: 
+    ip: 192.168.2.213
+
+  k8s_worker_01: 
+    ip: 192.168.2.212
+
+  k8s_worker_02: 
+    ip: 192.168.2.214
+
+  k8s_worker_03: 
+    ip: 192.168.2.215
+
+  k8s_control_plane_vip:
+    ip: 192.168.2.216

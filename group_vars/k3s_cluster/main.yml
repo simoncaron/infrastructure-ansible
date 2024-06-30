@@ -1,9 +1,18 @@
 ---
-k3s_version: v1.30.0+k3s1
+k3s_version: v1.30.2+k3s1 
 
-api_endpoint: "{{ hostvars[groups['server'][0]]['ansible_host'] | default(groups['server'][0]) }}"
+api_endpoint: "{{ pve_hosts.k8s_master_01.ip }}"
 
-extra_server_args: "--disable=traefik --disable=servicelb"
+server_group: k3s_servers
+agent_group: k3s_agents
+
+extra_server_args: >
+  --disable=traefik
+  --disable=servicelb
+  --node-taint CriticalAddonsOnly=true:NoExecute
+  --tls-san={{ pve_hosts.k8s_control_plane_vip.ip }}
+  --tls-san=k3s-cluster-01.simn.io
+
 extra_agent_args: ""
 
-extra_manifests: [ 'manifests/kube-vip/rbac.yaml', 'manifests/kube-vip/daemonset.yaml']
+# flux bootstrap gitea --owner=Simon --repository=infrastructure-k8s --path=clusters/k3s-cluster-01 --personal=true --token-auth --hostname=git.simn.io

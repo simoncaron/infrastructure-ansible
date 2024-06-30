@@ -1,34 +1,21 @@
 ---
-- name: Install k3s Prerequisites
+- name: Install/Configure k3s Prerequisites
+  gather_facts: true
   hosts:
-    - agent
-    - server
-  tags:
-    - k3s-prereq
+    - k3s_agents
+    - k3s_servers
   become: true
   roles:
-    - role: k3s.orchestration.prereq
+    - k3s.orchestration.prereq
 
-- name: Install k3s Server Nodes
-  hosts: server
-  tags: [k3s-server]
+- name: Install/Configure k3s Server Nodes
+  hosts: k3s_servers
   become: true
   roles:
-    - role: k3s.orchestration.k3s_server
+    - k3s.orchestration.k3s_server
 
-- name: Install k3s Agent Nodes
-  hosts: agent
-  tags: [k3s-agents]
+- name: Install/Configure k3s Agent Nodes
+  hosts: k3s_agents
   become: true
   roles:
-    - role: k3s.orchestration.k3s_agent
-
-- name: Upgrade k3s Version
-  hosts:
-    - agent
-    - server
-  tags:
-    - k3s-upgrade
-  become: true
-  roles:
-    - role: k3s.orchestration.k3s_upgrade
+    - k3s.orchestration.k3s_agent
